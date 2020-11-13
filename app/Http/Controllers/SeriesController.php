@@ -27,4 +27,15 @@ class SeriesController
         return is_null($serie) ?  response()->json('', 204)
             : response()->json($serie);
     }
+
+    public function atualizar(Request $request)
+    {
+        $serie = Serie::find($request->id);
+        if(is_null($serie)){
+            return response()->json(['Recurso nao encontrado'], 404);
+        }
+        $serie -> fill($request->all());
+        $serie->save();
+        return $serie;
+    }
 }
