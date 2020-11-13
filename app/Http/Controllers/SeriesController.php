@@ -18,7 +18,7 @@ class SeriesController
     public function store(Request $request)
     {
         return response()
-            -> json(Serie::create(['nome' => $request->nome]), 201);
+            -> json(Serie::create($request->all()), 201);
     }
 
     public function buscarPorId(int $id)
@@ -37,5 +37,13 @@ class SeriesController
         $serie -> fill($request->all());
         $serie->save();
         return $serie;
+    }
+
+    public function remover(int $id)
+    {
+        $qtdRecursosRemovidos = Serie::destroy($id);
+
+        return $qtdRecursosRemovidos === 0 ? response()->json(['Erro ao remover recurso'], 404)
+            : response()->json('Removido com sucesso', 200);
     }
 }
